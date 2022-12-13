@@ -42,7 +42,7 @@
     "@babel/preset-typescript": "7.12.13",
     "@docusaurus/module-type-aliases": "2.2.0",
     "@mands/nx-playwright": "^0.1.20",
-    "@nrwl/cli": "15.3.0",
+    "@nrwl/cli": "15.3.3",
     "@nrwl/eslint-plugin-nx": "15.3.0",
     "@nrwl/express": "15.3.0",
     "@nrwl/jest": "15.3.0",
