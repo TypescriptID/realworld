@@ -1,4 +1,4 @@
-import { codeSample, linkDocs } from './link.utils';
+import { linkCodeSample, linkSourceDocs } from './link.utils';
 
 export default {
   title: 'Atoms/Link',
@@ -7,15 +7,21 @@ export default {
   },
 };
 
-export const Link = () => codeSample();
-Link.storyName = 'link (default)';
-Link.parameters = {
-  ...linkDocs(),
+export const Link = {
+  render: () => linkCodeSample(),
+  name: 'link (default)',
+
+  parameters: {
+    ...linkSourceDocs(),
+  },
 };
 
-export const LinkHover = () => codeSample();
-LinkHover.storyName = 'link (hover)';
-LinkHover.parameters = {
-  pseudo: { hover: true },
-  ...linkDocs(),
+export const LinkHover = {
+  render: () => linkCodeSample(),
+  name: 'link (hover)',
+
+  parameters: {
+    pseudo: { hover: true },
+    ...linkSourceDocs(),
+  },
 };
