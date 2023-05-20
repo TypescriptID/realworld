@@ -5,20 +5,20 @@
   "projectType": "application",
   "targets": {
     "e2e": {
-      "executor": "@nrwl/cypress:cypress",
+      "executor": "@nx/cypress:cypress",
       "options": {
         "cypressConfig": "apps/api-testing-cypress/cypress.config.ts",
-        "devServerTarget": "demo:serve:development",
+        "devServerTarget": "storybook:serve:development",
         "testingType": "e2e"
       },
       "configurations": {
         "production": {
-          "devServerTarget": "demo:serve:production"
+          "devServerTarget": "storybook:serve:production"
         }
       }
     },
     "lint": {
-      "executor": "@nrwl/linter:eslint",
+      "executor": "@nx/linter:eslint",
       "outputs": ["{options.outputFile}"],
       "options": {
         "lintFilePatterns": ["apps/api-testing-cypress/**/*.{js,ts}"]
@@ -26,5 +26,5 @@
     }
   },
   "tags": [],
-  "implicitDependencies": ["demo"]
+  "implicitDependencies": ["storybook"]
 }

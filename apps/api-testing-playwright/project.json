@@ -8,27 +8,17 @@
       "executor": "@mands/nx-playwright:playwright-executor",
       "options": {
         "e2eFolder": "apps/api-testing-playwright",
-        "devServerTarget": "swagger:serve",
+        "devServerTarget": "storybook:serve",
         "packageRunner": "yarn"
       },
       "configurations": {
         "production": {
-          "devServerTarget": "swagger:serve:production"
+          "devServerTarget": "storybook:serve:production"
         }
       }
     },
-    "ts-check": {
-      "executor": "nx:run-commands",
-      "options": {
-        "commands": [
-          {
-            "command": "tsc --build --force --verbose apps/swagger-e2e/tsconfig.json"
-          }
-        ]
-      }
-    },
     "lint": {
-      "executor": "@nrwl/linter:eslint",
+      "executor": "@nx/linter:eslint",
       "outputs": ["{options.outputFile}"],
       "options": {
         "lintFilePatterns": ["apps/api-testing-playwright/**/*.{ts,tsx,js,jsx}"]
@@ -36,5 +26,5 @@
     }
   },
   "tags": [],
-  "implicitDependencies": ["swagger"]
+  "implicitDependencies": ["storybook"]
 }

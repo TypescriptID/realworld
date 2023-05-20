@@ -1,3 +1,21 @@
+# Storybook
+
+## Prerequisites
+
+- [Node.js](https://nodejs.org/en/download/) >= 12.0.0 ([reference](https://github.com/microsoft/playwright/issues/2059#issuecomment-934346107))
+
+## Installation
+
+```shell
+npm install
+```
+
+## Run locally
+
+```shell
+npx nx run storybook:storybook
+```
+
 ## TODO
 
 - button position : left / right / centered ?

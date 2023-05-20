@@ -1,18 +1,14 @@
 {
-  "extends": ["../../.eslintrc.json"],
+  "extends": ["plugin:@nx/react", "../../.eslintrc.json"],
   "ignorePatterns": ["!**/*"],
   "overrides": [
     {
       "files": ["*.ts", "*.tsx", "*.js", "*.jsx"],
-      "rules": {
-        "jest/no-done-callback": "off"
-      }
+      "rules": {}
     },
     {
       "files": ["*.ts", "*.tsx"],
-      "rules": {
-        "jest/no-done-callback": "off"
-      }
+      "rules": {}
     },
     {
       "files": ["*.js", "*.jsx"],
