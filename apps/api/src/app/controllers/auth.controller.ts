@@ -14,7 +14,7 @@ const router = Router();
 router.post('/users', async (req: Request, res: Response, next: NextFunction) => {
   try {
     const user = await createUser({ ...req.body.user, demo: false });
-    res.json({ user });
+    res.status(201).json({ user });
   } catch (error) {
     next(error);
   }
@@ -44,7 +44,7 @@ router.post('/users/login', async (req: Request, res: Response, next: NextFuncti
  */
 router.get('/user', auth.required, async (req: Request, res: Response, next: NextFunction) => {
   try {
-    const user = await getCurrentUser(req.user?.username as string);
+    const user = await getCurrentUser(req.auth?.user?.username as string);
     res.json({ user });
   } catch (error) {
     next(error);
@@ -60,7 +60,7 @@ router.get('/user', auth.required, async (req: Request, res: Response, next: Nex
  */
 router.put('/user', auth.required, async (req: Request, res: Response, next: NextFunction) => {
   try {
-    const user = await updateUser(req.body.user, req.user?.username as string);
+    const user = await updateUser(req.body.user, req.auth?.user?.username as string);
     res.json({ user });
   } catch (error) {
     next(error);
