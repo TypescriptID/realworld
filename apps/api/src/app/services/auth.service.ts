@@ -7,23 +7,24 @@ import generateToken from '../utils/token.utils';
 import { User } from '../models/user.model';
 
 const checkUserUniqueness = async (email: string, username: string) => {
-  const existingUserByEmail = await prisma.user.findUnique({
-    where: {
-      email,
-    },
-    select: {
-      id: true,
-    },
-  });
-
-  const existingUserByUsername = await prisma.user.findUnique({
-    where: {
-      username,
-    },
-    select: {
-      id: true,
-    },
-  });
+  const [existingUserByEmail, existingUserByUsername] = await Promise.all([
+    prisma.user.findUnique({
+      where: {
+        email,
+      },
+      select: {
+        id: true,
+      },
+    }),
+    prisma.user.findUnique({
+      where: {
+        username,
+      },
+      select: {
+        id: true,
+      },
+    }),
+  ]);
 
   if (existingUserByEmail || existingUserByUsername) {
     throw new HttpException(422, {
@@ -67,6 +68,7 @@ export const createUser = async (input: RegisterInput): Promise<RegisteredUser> 
       ...(demo ? { demo } : {}),
     },
     select: {
+      id: true,
       email: true,
       username: true,
       bio: true,
@@ -76,7 +78,7 @@ export const createUser = async (input: RegisterInput): Promise<RegisteredUser> 
 
   return {
     ...user,
-    token: generateToken(user),
+    token: generateToken(user.id),
   };
 };
 
@@ -97,6 +99,7 @@ export const login = async (userPayload: any) => {
       email,
     },
     select: {
+      id: true,
       email: true,
       username: true,
       password: true,
@@ -114,7 +117,7 @@ export const login = async (userPayload: any) => {
         username: user.username,
         bio: user.bio,
         image: user.image,
-        token: generateToken(user),
+        token: generateToken(user.id),
       };
     }
   }
@@ -126,12 +129,13 @@ export const login = async (userPayload: any) => {
   });
 };
 
-export const getCurrentUser = async (username: string) => {
+export const getCurrentUser = async (id: number) => {
   const user = (await prisma.user.findUnique({
     where: {
-      username,
+      id,
     },
     select: {
+      id: true,
       email: true,
       username: true,
       bio: true,
@@ -141,11 +145,11 @@ export const getCurrentUser = async (username: string) => {
 
   return {
     ...user,
-    token: generateToken(user),
+    token: generateToken(user.id),
   };
 };
 
-export const updateUser = async (userPayload: any, loggedInUsername: string) => {
+export const updateUser = async (userPayload: any, id: number) => {
   const { email, username, password, image, bio } = userPayload;
   let hashedPassword;
 
@@ -155,7 +159,7 @@ export const updateUser = async (userPayload: any, loggedInUsername: string) => 
 
   const user = await prisma.user.update({
     where: {
-      username: loggedInUsername,
+      id: id,
     },
     data: {
       ...(email ? { email } : {}),
@@ -165,6 +169,7 @@ export const updateUser = async (userPayload: any, loggedInUsername: string) => 
       ...(bio ? { bio } : {}),
     },
     select: {
+      id: true,
       email: true,
       username: true,
       bio: true,
@@ -174,23 +179,6 @@ export const updateUser = async (userPayload: any, loggedInUsername: string) => 
 
   return {
     ...user,
-    token: generateToken(user),
+    token: generateToken(user.id),
   };
-};
-
-export const findUserIdByUsername = async (username: string) => {
-  const user = await prisma.user.findUnique({
-    where: {
-      username,
-    },
-    select: {
-      id: true,
-    },
-  });
-
-  if (!user) {
-    throw new HttpException(404, {});
-  }
-
-  return user;
 };
